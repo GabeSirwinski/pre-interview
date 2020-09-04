@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div style="display: flex">
+      <label for="string">Enter String: </label>
+      <input type="text" id="string" name="String" />
+      <input type="submit" onClick="stringFunction()" value="Enter" />
+    </div>
+    <p id="outputLetter"></p>
+    <p id="outputString"></p>
+    <script>
+      function getValue(obj) {
+        total = 0;
+        for (let key in obj) {
+          total += obj[key];
+        }
+        return total;
+      }
+      function stringFunction() {
+        let string = document.getElementById("string").value.toString();
+        let strings = {};
+        for (let i = 0; i < string.length; i++) {
+          let char = string[i].toLowerCase();
+          if (string[i] in strings || char in strings)
+            strings[char][string[i]] === undefined
+              ? (strings[char][string[i]] = 1)
+              : strings[char][string[i]]++;
+          else {
+            strings[char] = {};
+            strings[char][string[i]] = 1;
+          }
+        }
+        let newString = "New String: ";
+        let newLetter = false;
+        let letter = "First non-repeating character: ";
+        for (let i = 0; i < string.length; i++) {
+          for (let key in strings) {
+            let value = getValue(strings[key]);
+            if (value === i) {
+              if (!newLetter) {
+                for (let k in strings[key]) {
+                  if (!newLetter) {
+                    letter += k;
+                    newLetter = true;
+                  }
+                }
+              }
+              for (let j in strings[key]) {
+                if (strings[key][j] === 1) newString += j;
+                else for (let m = 0; m < strings[key][j]; m++) newString += j;
+              }
+            }
+          }
+        }
+        document.getElementById("outputLetter").innerText = letter;
+        document.getElementById("outputString").innerText = newString;
+      }
+    </script>
+  </body>
+</html>
